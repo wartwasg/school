@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add New Course</title>
+</head>
+<body>
+	<form method="post" th:object="${student}">
+    <div class="container">
+        <!-- NAVIGATION BAR - Put your navigation links here -->
+        <header>
+            <h1>Course Registration System</h1>
+            <nav>
+				<a th:href="@{/registration}">Register Courses</a>
+				<a th:href="@{/summary}">My Courses</a>
+				<a th:href="@{/add-course}" class="active">Add New Course</a>
+            </nav>
+        </header>
+
+        <main>
+            <div class="card">
+                <h2>Add New Course to Catalog</h2>
+                <p class="subtitle">Fill in the details to add a new course to the system</p>
+				<div class="form-section">
+				<h3>Available Courses</h3>
+						<div class="course-list" th:each="course : ${course}">
+						   <div class="course-item">
+						   <div class="checkbox-placeholder"><input type="checkbox" th:field="*{temp}" th:value="${course.code}"/></div>
+						   <div class="course-info">
+						   <strong th:text="${course.code + ' - '+ course.name}"></strong>
+						   <span class="course-details" th:text="'Credits: ' + ${course.credits} + ' | Schedule :'+ ${course.time}"></span><br>
+		                   <span class="course-details" th:text="'Semester: ' + ${course.semester}"></span>
+						   </div>
+						</div>
+					</div>
+			     </div>
+				 <div class="button-group">
+				     <input type="submit" class="btn btn-primary" value="Add">
+				          </div>
+            </div>
+        </main>
+
+        <footer>
+            <p>&copy; 2025 University Course Registration System</p>
+        </footer>
+    </div>
+	</form>
+	<style>
+		* {
+		    margin: 0;
+		    padding: 0;
+		    box-sizing: border-box;
+		}
+
+		body {
+		    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+		    background-color: #f5f7fa;
+		    min-height: 100vh;
+		    color: #1a202c;
+		    line-height: 1.6;
+		}
+
+		/* CONTAINER */
+		.container {
+		    max-width: 1400px;
+		    margin: 0 auto;
+		    background: #ffffff;
+		    min-height: 100vh;
+		    display: flex;
+		    flex-direction: column;
+		}
+
+		/* HEADER AND NAVIGATION */
+		header {
+		    background: #ffffff;
+		    border-bottom: 1px solid #e2e8f0;
+		    padding: 0;
+		    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+		}
+
+		header h1 {
+		    font-size: 1.5rem;
+		    font-weight: 600;
+		    color: #2d3748;
+		    padding: 1.5rem 2.5rem;
+		    margin: 0;
+		}
+
+		nav {
+		    display: flex;
+		    gap: 0;
+		    padding: 0 2.5rem;
+		    border-top: 1px solid #e2e8f0;
+		}
+
+		nav a {
+		    color: #4a5568;
+		    text-decoration: none;
+		    padding: 1rem 1.5rem;
+		    font-weight: 500;
+		    font-size: 0.95rem;
+		    border-bottom: 3px solid transparent;
+		    transition: all 0.2s ease;
+		    position: relative;
+		}
+
+		nav a:hover {
+		    color: #2563eb;
+		    background-color: #f7fafc;
+		    border-bottom-color: #93c5fd;
+		}
+
+		nav a.active {
+		    color: #2563eb;
+		    border-bottom-color: #2563eb;
+		    background-color: #eff6ff;
+		}
+
+		/* MAIN CONTENT */
+		main {
+		    padding: 2.5rem;
+		    flex: 1;
+		    max-width: 1200px;
+		    width: 100%;
+		    margin: 0 auto;
+		}
+
+		.card {
+		    background: #ffffff;
+		    border: 1px solid #e2e8f0;
+		    border-radius: 8px;
+		    padding: 2rem;
+		    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+		}
+
+		.card h2 {
+		    color: #1a202c;
+		    font-size: 1.75rem;
+		    font-weight: 600;
+		    margin-bottom: 0.5rem;
+		}
+
+		.subtitle {
+		    color: #718096;
+		    margin-bottom: 2rem;
+		    font-size: 1rem;
+		}
+
+		/* FORM SECTIONS */
+		.form-section {
+		    margin-bottom: 2.5rem;
+		    padding-bottom: 2rem;
+		    border-bottom: 1px solid #e2e8f0;
+		}
+
+		.form-section:last-of-type {
+		    border-bottom: none;
+		    padding-bottom: 0;
+		}
+
+		.form-section h3 {
+		    color: #2d3748;
+		    margin-bottom: 1.5rem;
+		    font-size: 1.25rem;
+		    font-weight: 600;
+		}
+
+		/* FORM GROUPS */
+		.form-group {
+		    margin-bottom: 1.5rem;
+		}
+
+		.form-group label {
+		    display: block;
+		    font-weight: 500;
+		    color: #2d3748;
+		    margin-bottom: 0.5rem;
+		    font-size: 0.95rem;
+		}
+
+		.form-row {
+		    display: grid;
+		    grid-template-columns: 1fr 1fr;
+		    gap: 1.5rem;
+		}
+
+		/* INPUT PLACEHOLDERS */
+		.input-placeholder {
+		    background: #f7fafc;
+		    border: 1px solid #cbd5e0;
+		    padding: 0.75rem 1rem;
+		    border-radius: 6px;
+		    color: #a0aec0;
+		    font-size: 0.95rem;
+		    transition: all 0.2s ease;
+		}
+
+		.input-placeholder:hover {
+		    border-color: #a0aec0;
+		    background: #edf2f7;
+		}
+
+		.input-placeholder.small {
+		    padding: 0.75rem 1rem;
+		}
+
+		.input-placeholder.textarea {
+		    min-height: 120px;
+		    display: flex;
+		    align-items: center;
+		    justify-content: center;
+		}
+
+		/* COURSE LIST */
+		.course-list {
+		    display: flex;
+		    flex-direction: column;
+		    gap: 0.75rem;
+		}
+
+		.course-item {
+		    display: flex;
+		    align-items: flex-start;
+		    gap: 1rem;
+		    padding: 1.25rem;
+		    background: #ffffff;
+		    border: 1px solid #e2e8f0;
+		    border-radius: 6px;
+		    transition: all 0.2s ease;
+		    cursor: pointer;
+		}
+
+		.course-item:hover {
+		    border-color: #cbd5e0;
+		    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+		    background: #f7fafc;
+		}
+
+		.checkbox-placeholder {
+		    font-size: 20px;
+		    color: #cbd5e0;
+		    min-width: 20px;
+		    margin-top: 2px;
+		}
+
+		.course-item:hover .checkbox-placeholder {
+		    color: #2563eb;
+		}
+
+		.course-info {
+		    flex: 1;
+		}
+
+		.course-info strong {
+		    display: block;
+		    color: #1a202c;
+		    font-size: 1rem;
+		    font-weight: 600;
+		    margin-bottom: 0.375rem;
+		}
+
+		.course-details {
+		    color: #718096;
+		    font-size: 0.875rem;
+		}
+
+		/* STUDENT SUMMARY */
+		.student-summary {
+		    background: #f7fafc;
+		    border: 1px solid #e2e8f0;
+		    padding: 1.5rem;
+		    border-radius: 6px;
+		    margin-bottom: 2rem;
+		}
+
+		.info-row {
+		    display: flex;
+		    justify-content: space-between;
+		    padding: 0.75rem 0;
+		    border-bottom: 1px solid #e2e8f0;
+		}
+
+		.info-row:last-child {
+		    border-bottom: none;
+		    padding-bottom: 0;
+		}
+
+		.info-row:first-child {
+		    padding-top: 0;
+		}
+
+		.info-row .label {
+		    font-weight: 500;
+		    color: #4a5568;
+		    font-size: 0.95rem;
+		}
+
+		.info-row .value {
+		    color: #1a202c;
+		    font-weight: 500;
+		}
+
+		/* TABLE CONTAINER */
+		.table-container {
+		    margin-bottom: 2rem;
+		    border: 1px solid #e2e8f0;
+		    border-radius: 6px;
+		    overflow: hidden;
+		}
+
+		.table-container h3 {
+		    color: #1a202c;
+		    margin-bottom: 0;
+		    padding: 1.25rem 1.5rem;
+		    background: #f7fafc;
+		    border-bottom: 1px solid #e2e8f0;
+		    font-size: 1.125rem;
+		    font-weight: 600;
+		}
+
+		.course-table {
+		    width: 100%;
+		    border-collapse: collapse;
+		    background: white;
+		}
+
+		.course-table thead {
+		    background: #f7fafc;
+		}
+
+		.course-table th {
+		    padding: 1rem 1.5rem;
+		    text-align: left;
+		    font-weight: 600;
+		    color: #2d3748;
+		    font-size: 0.875rem;
+		    text-transform: uppercase;
+		    letter-spacing: 0.05em;
+		    border-bottom: 1px solid #e2e8f0;
+		}
+
+		.course-table td {
+		    padding: 1.25rem 1.5rem;
+		    border-bottom: 1px solid #e2e8f0;
+		    color: #4a5568;
+		    font-size: 0.95rem;
+		}
+
+		.course-table tbody tr:hover {
+		    background: #f7fafc;
+		}
+
+		.course-table tbody tr:last-child td {
+		    border-bottom: none;
+		}
+
+		/* SUMMARY STATISTICS */
+		.summary-stats {
+		    display: grid;
+		    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+		    gap: 1.5rem;
+		    margin-bottom: 2rem;
+		}
+
+		.stat-card {
+		    background: #ffffff;
+		    border: 1px solid #e2e8f0;
+		    padding: 1.5rem;
+		    border-radius: 6px;
+		    text-align: center;
+		    transition: all 0.2s ease;
+		}
+
+		.stat-card:hover {
+		    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+		    border-color: #cbd5e0;
+		}
+
+		.stat-card h4 {
+		    font-size: 0.875rem;
+		    margin-bottom: 0.75rem;
+		    color: #718096;
+		    font-weight: 500;
+		    text-transform: uppercase;
+		    letter-spacing: 0.05em;
+		}
+
+		.stat-number {
+		    font-size: 2rem;
+		    font-weight: 700;
+		    color: #2563eb;
+		}
+
+		.status-complete {
+		    color: #059669;
+		}
+
+		/* BUTTONS */
+		.button-group {
+		    display: flex;
+		    gap: 1rem;
+		    flex-wrap: wrap;
+		    margin-top: 2rem;
+		}
+
+		.btn {
+		    padding: 0.75rem 1.5rem;
+		    border: 1px solid transparent;
+		    border-radius: 6px;
+		    font-size: 0.95rem;
+		    font-weight: 500;
+		    cursor: pointer;
+		    transition: all 0.2s ease;
+		    text-align: center;
+		    display: inline-block;
+		}
+
+		.btn-primary {
+		    background: #2563eb;
+		    color: white;
+		    border-color: #2563eb;
+		}
+
+		.btn-primary:hover {
+		    background: #1d4ed8;
+		    border-color: #1d4ed8;
+		    box-shadow: 0 2px 4px rgba(37, 99, 235, 0.2);
+		}
+
+		.btn-secondary {
+		    background: #ffffff;
+		    color: #4a5568;
+		    border-color: #cbd5e0;
+		}
+
+		.btn-secondary:hover {
+		    background: #f7fafc;
+		    border-color: #a0aec0;
+		}
+
+		.btn-small {
+		    padding: 0.5rem 1rem;
+		    font-size: 0.875rem;
+		    border-radius: 4px;
+		    cursor: pointer;
+		    border: 1px solid transparent;
+		    font-weight: 500;
+		    transition: all 0.2s ease;
+		}
+
+		.btn-danger {
+		    background: #dc2626;
+		    color: white;
+		    border-color: #dc2626;
+		}
+
+		.btn-danger:hover {
+		    background: #b91c1c;
+		    border-color: #b91c1c;
+		}
+
+		/* FOOTER */
+		footer {
+		    background: #f7fafc;
+		    border-top: 1px solid #e2e8f0;
+		    color: #718096;
+		    text-align: center;
+		    padding: 1.5rem;
+		    margin-top: auto;
+		    font-size: 0.875rem;
+		}
+
+		/* RESPONSIVE DESIGN */
+		@media (max-width: 1024px) {
+		    main {
+		        padding: 2rem;
+		    }
+
+		    header h1 {
+		        padding: 1.25rem 2rem;
+		    }
+
+		    nav {
+		        padding: 0 2rem;
+		    }
+		}
+
+		@media (max-width: 768px) {
+		    header h1 {
+		        font-size: 1.25rem;
+		        padding: 1rem 1.5rem;
+		    }
+
+		    nav {
+		        padding: 0 1.5rem;
+		        overflow-x: auto;
+		        white-space: nowrap;
+		    }
+
+		    nav a {
+		        padding: 0.875rem 1rem;
+		        font-size: 0.875rem;
+		    }
+
+		    main {
+		        padding: 1.5rem;
+		    }
+
+		    .card {
+		        padding: 1.5rem;
+		    }
+
+		    .card h2 {
+		        font-size: 1.5rem;
+		    }
+
+		    .form-row {
+		        grid-template-columns: 1fr;
+		    }
+
+		    .summary-stats {
+		        grid-template-columns: 1fr;
+		    }
+
+		    .button-group {
+		        flex-direction: column;
+		    }
+
+		    .btn {
+		        width: 100%;
+		    }
+
+		    .course-table {
+		        font-size: 0.875rem;
+		    }
+
+		    .course-table th,
+		    .course-table td {
+		        padding: 0.875rem 1rem;
+		    }
+
+		    .course-item {
+		        padding: 1rem;
+		    }
+		}
+
+		@media (max-width: 480px) {
+		    header h1 {
+		        font-size: 1.125rem;
+		        padding: 1rem;
+		    }
+
+		    nav {
+		        padding: 0 1rem;
+		    }
+
+		    nav a {
+		        padding: 0.75rem 0.875rem;
+		    }
+
+		    main {
+		        padding: 1rem;
+		    }
+
+		    .card {
+		        padding: 1rem;
+		    }
+
+		    .stat-number {
+		        font-size: 1.75rem;
+		    }
+		}
+
+		/* PRINT STYLES */
+		@media print {
+		    body {
+		        background: white;
+		    }
+
+		    header nav,
+		    .button-group,
+		    .btn {
+		        display: none !important;
+		    }
+
+		    .container {
+		        box-shadow: none;
+		    }
+
+		    .card {
+		        border: none;
+		        box-shadow: none;
+		        break-inside: avoid;
+		    }
+
+		    .course-table {
+		        border: 1px solid #000;
+		    }
+
+		    .course-table th {
+		        background: #f0f0f0 !important;
+		        -webkit-print-color-adjust: exact;
+		        print-color-adjust: exact;
+		    }
+		}
+	</style>
+</body>
+</html>
