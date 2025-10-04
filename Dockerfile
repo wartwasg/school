@@ -1,14 +1,20 @@
 # Use Java 21 JDK
 FROM eclipse-temurin:21-jdk-alpine
 
-# Set working directory inside the container
+# Set working directory
 WORKDIR /app
 
-# Copy the built JAR from the target folder
-COPY target/registration-0.0.1-SNAPSHOT.jar app.jar
+# Copy project files
+COPY . .
 
-# Expose port 8080 (Spring Boot default)
+# Build the JAR inside the container
+RUN ./mvnw clean package -DskipTests
+
+# Copy the JAR to app.jar
+RUN cp target/registration-0.0.1-SNAPSHOT.jar app.jar
+
+# Expose port 8080
 EXPOSE 8080
 
-# Command to run the Spring Boot app
+# Run the app
 ENTRYPOINT ["java", "-jar", "app.jar"]
