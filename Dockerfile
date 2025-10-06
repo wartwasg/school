@@ -1,20 +1,12 @@
-# Use Java 21 JDK
-FROM eclipse-temurin:21-jdk-alpine
-
-# Set working directory
+# Stage 1: Build the JAR with Maven
+FROM maven:3.9.6-eclipse-temurin-21 AS build
 WORKDIR /app
-
-# Copy project files
 COPY . .
+RUN mvn clean package -DskipTests
 
-# Build the JAR inside the container
-RUN ./mvnw clean package -DskipTests
-
-# Copy the JAR to app.jar
-RUN cp target/registration-0.0.1-SNAPSHOT.jar app.jar
-
-# Expose port 8080
+# Stage 2: Run the app in a slim image
+FROM eclipse-temurin:21-jdk-alpine
+WORKDIR /app
+COPY --from=build /app/target/registration-0.0.1-SNAPSHOT.jar app.jar
 EXPOSE 8080
-
-# Run the app
 ENTRYPOINT ["java", "-jar", "app.jar"]
