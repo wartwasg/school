@@ -6,12 +6,14 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 
 @Controller
 @RequestMapping("/add-course")
@@ -43,10 +45,13 @@ public class AddCourseController {
 	}
 
 	@PostMapping
-	public String getAddedCourses(HttpSession session, @ModelAttribute Student formStudent, Model model) {
+	public String getAddedCourses(@Valid @ModelAttribute Student formStudent, Errors errors, Model model,
+			HttpSession session) {
 		Student sessionStudent = (Student) session.getAttribute("student");
-		if (sessionStudent == null) {
-			sessionStudent = new Student();
+		if (sessionStudent == null || sessionStudent.getId() == null) {
+			model.addAttribute("error",
+					"Unable to add course: please ensure the student information is complete and valid");
+			return "add-course";
 		}
 		if (formStudent != null && formStudent.getTemp() != null) {
 			sessionStudent.getSelected().addAll(formStudent.getTemp());

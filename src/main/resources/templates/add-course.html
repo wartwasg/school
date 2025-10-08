@@ -25,6 +25,7 @@
                 <p class="subtitle">Fill in the details to add a new course to the system</p>
 				<div class="form-section">
 				<h3>Available Courses</h3>
+				<span th:text="${error}" style="color: red;"></span><br>
 						<div class="course-list" th:each="course : ${course}">
 						   <div class="course-item">
 						   <div class="checkbox-placeholder"><input type="checkbox" th:field="*{temp}" th:value="${course.code}"/></div>

@@ -1,15 +1,13 @@
 package com.example.demo;
 
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
-@Getter
-@Setter
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Payment extends Student {
+public class Payment {
 	private String g_name;
 	private String g_email;
 	private String phone;

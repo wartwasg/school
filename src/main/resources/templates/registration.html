@@ -27,21 +27,25 @@
 			                    <h3>Student Information</h3>
 			                    <div class="form-group">
 			                        <label>Student ID:</label>
-			                        <input type="text" class="input-placeholder" th:field="*{id}" placeholder="Enter student ID"/>
+			                        <input type="text" class="input-placeholder" th:field="*{id}" placeholder="Enter the student id"/><br>
+									<span th:if="${#fields.hasErrors('id')}" th:errors="*{id}" style="color: red;"></span>								
 			                    </div>
 			                    <div class="form-group">
 			                        <label>Full Name:</label>
-			                        <input type="text" class="input-placeholder" th:field="*{fname}" placeholder="Enter student full name"/>
+			                        <input type="text" class="input-placeholder" th:field="*{fname}" placeholder="Enter student full name"/><br>
+									<span th:if="${#fields.hasErrors('fname')}"	th:errors="*{fname}" style="color: red;"></span>
 			                    </div>
 			                    <div class="form-group">
 			                        <label>Email:</label>
-			                        <input type="email" class="input-placeholder" th:field="*{email}" placeholder="Enter student Email"/>
+			                        <input type="email" class="input-placeholder" th:field="*{email}" placeholder="Enter student Email"/><br>
+									<span th:if="${#fields.hasErrors('email')}" th:errors = "*{email}" style="color: red;"></span>
 			                    </div>
 			                </div>
 
 			                <!-- AVAILABLE COURSES SECTION - Loop your courses from backend here -->
 			                <div class="form-section">
 			                    <h3>Available Courses</h3>
+								<span th:if="${#fields.hasErrors('selected')}" th:errors="*{selected}" style="color: red;"></span><br>
 			                    <div class="course-list" th:each="course : ${course}">
 			                        <div class="course-item">
 			                            <div class="checkbox-placeholder"><input type="checkbox" th:field="*{selected}" th:value="${course.code}"/></div>
