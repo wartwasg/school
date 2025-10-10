@@ -7,11 +7,19 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.example.demo.repository.JdbcStudentRepository;
+
 import jakarta.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/summary")
 public class MycoursesController {
+	private JdbcStudentRepository repo;
+
+	public MycoursesController(JdbcStudentRepository repo) {
+		this.repo = repo;
+	}
+
 	@GetMapping
 	public String getSummaryPage(HttpSession session, Model model) {
 		Student student = (Student) session.getAttribute("student");
@@ -29,9 +37,15 @@ public class MycoursesController {
 	@PostMapping
 	public String getSubmitted(HttpSession session, Model model) {
 		Student student = (Student) session.getAttribute("student");
-		student.setRegistration_status("Registered");
-		model.addAttribute(student);
-		// session.invalidate();
+		if (student == null) {
+			model.addAttribute("error", "Unable to register course: no valid student information available");
+		} else {
+			student.setRegistration_status("Registered");
+			model.addAttribute(student);
+			repo.Save(student);
+			session.invalidate();
+		}
+
 		return "summary";
 	}
 

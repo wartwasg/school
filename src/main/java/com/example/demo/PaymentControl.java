@@ -18,8 +18,8 @@ import jakarta.validation.Valid;
 @Controller
 @RequestMapping("/payment")
 public class PaymentControl {
-	@GetMapping
-	public String getPayment(HttpSession session, Model model) {
+	@ModelAttribute
+	void preparingData(Model model) {
 		HashMap<String, String> unpaid_things = new HashMap<>();
 		List<String> semester = new ArrayList<>();
 		List<String> payment_method = new ArrayList<>();
@@ -48,7 +48,10 @@ public class PaymentControl {
 		model.addAttribute("unpaid_semester", semester);
 		model.addAttribute("unpaid", unpaid_things);
 		model.addAttribute("payment_method", payment_method);
+	}
 
+	@GetMapping
+	public String getPayment(HttpSession session, Model model) {
 		Student student = (Student) session.getAttribute("student");
 		if (student == null) {
 			model.addAttribute("student", new Student());
@@ -59,10 +62,12 @@ public class PaymentControl {
 	}
 
 	@PostMapping
-	public String postPayment(@Valid @ModelAttribute Student student, Errors errors, Model model) {
+	public String postPayment(@Valid @ModelAttribute Student student, Errors errors, Model model, HttpSession session) {
+		Student studentSession = (Student) session.getAttribute("student");
 		if (errors.hasErrors()) {
 			return "payment";
 		} else {
+			session.setAttribute("student", studentSession);
 			return "summary";
 		}
 	}

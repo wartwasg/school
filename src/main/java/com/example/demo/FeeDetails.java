@@ -1,5 +1,7 @@
 package com.example.demo;
 
+import java.util.Date;
+
 import org.hibernate.validator.constraints.CreditCardNumber;
 
 import jakarta.validation.constraints.Digits;
@@ -13,6 +15,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class FeeDetails {
+	private long id;
 	@NotBlank(message = "select the valid payment type")
 	private String type;
 	@NotBlank(message = "the entered amount should not be blank")
@@ -31,4 +34,5 @@ public class FeeDetails {
 	private String instructions;
 	private String year;
 	private String semester;
+	private Date paid_at = new Date();
 }
